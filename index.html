@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de Motocicleta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9f2ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            transform: rotate(-55deg);
+            pointer-events: none;
+        }
+
+        :root {
+            --carnita: #162ca7;
+            --carnita-oscura: #062455;
+            --terracota: #111879;
+            --cafe: #12265f;
+            --crema: #e9f2ff;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            background: linear-gradient(to right, var(--carnita), var(--carnita-oscura));
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 22px;
+            text-align: center;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        th {
+            background: var(--carnita-oscura);
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px;
+            background: var(--crema);
+            border: 1px solid var(--carnita-oscura);
+        }
+
+        input.edit-input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #062455;
+            border-radius: 6px;
+        }
+
+        .btn-delete, .btn-edit, .btn-save, .btn-cancel {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .btn-delete { background: #8a1a1a; }
+        .btn-edit { background: #1a3f8a; }
+        .btn-save { background: #0e6b2f; }
+        .btn-cancel { background: #555; }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+                margin-top: 20px;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            form input {
+                width: 100% !important;
+                display: block;
+                margin-bottom: 12px;
+            }
+            img {
+                width: 110px !important;
+            }
+        }
+
+        .qr-data {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-data h3 {
+            margin-top: 0;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #qrResult {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<img src="img/pjg.jpg" style="display:block;margin:10px auto;width:130px;border-radius:18px;">
+
+<center><h1 style="font-size: 45px;">𝓟𝓡𝓞𝓕𝓔𝓢𝓘𝓞𝓝𝓐𝓛𝓔𝓢 𝓔𝓝𝓷 𝓐𝓒𝓒𝓘Ó𝓝 𝓨 𝓜𝓞𝓥𝓘𝓥𝓔𝓝𝓣𝓞</h1></center>
+<center><h1 style="font-size: 50px;">𝙋.𝘼.𝙈</h1></center>
+
+<div class="container">
+   
+    <p style="font-size: 18px; font-family: Arial, sans-serif; color: var(--terracota); text-align: center;">
+        <strong>Presidente:</strong> T.S Hugo David Melgarejo Navarrete<br>
+        <strong>Vicepresidente:</strong> C. Jimmy Adrián Tzab Peraza<br><br>
+        
+        <strong>Tesoreras:</strong><br>
+        C. María Concepción Warner Ojéda<br>
+        C. Mónica Gabriela Pool Muenfil<br><br>
+
+        <strong>Vigilancia:</strong><br>
+        C. Jorge Cauich Gómez<br>
+        C. Martín Rodolfo Pool<br>
+        C. Martín Damián Pool Buenfil<br>
+        C. Daniel Edgardo Acosta Balám<br>
+        C. Rudy Montalvo Briseño
+    </p>
+</div>
+
+<div class="container">
+    <h2 class="section-title">Ingresar Datos de Motocicleta</h2>
+    <br>
+    <center>
+        <form id="motorcycleForm">
+            <input type="text" id="socios" placeholder="SOCIO" required>
+            <input type="text" id="numeroMotor" placeholder="No. MOTOR" required><br><br>
+            <input type="text" id="modelo" placeholder="MODELO" required>
+            <input type="text" id="marca" placeholder="MARCA" required><br><br>
+            <input type="text" id="numeroPlaca" placeholder="No. PLACA" required>
+            <input type="text" id="entidadFederativa" placeholder="ENTIDAD FEDERATIVA" required><br><br>
+            <input type="text" id="tarjetaCirculacion" placeholder="TARJETA DE CIRCULACIÓN" required>
+            <input type="text" id="censoIMDUT" placeholder="CENSO IMDUT" required><br><br><br>
+            <button class="btn-edit" type="submit" style="width:100%;padding:12px;">Registrar Datos</button>
+            <br>
+        </form>
+    </center>
+
+    <h2 class="section-title">Registros de Motocicletas</h2>
+
+    <table id="motorcycleTable">
+        <thead>
+        <tr>
+            <th>SOCIO</th>
+            <th>No MOTOR</th>
+            <th>MODELO</th>
+            <th>MARCA</th>
+            <th>No. PLACA</th>
+            <th>ENTIDAD</th>
+            <th>TARJETA</th>
+            <th>CENSO IMDUT</th>
+            <th>ACCIONES</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2 class="section-title">Generar QR por Nombre del Socio</h2>
+
+    <center>
+        <input type="text" id="qrName" placeholder="Escribe el nombre del socio" style="width:80%;padding:10px;">
+        <br><br>
+        <button onclick="generateQR()" class="btn-edit" style="padding:10px 20px;">Generar QR</button>
+
+        <br><br>
+        <div id="qrResult"></div>
+    </center>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+<script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDlb-1_Go6zZ5lm67iUStwyksyYccxWuXc",
+    authDomain: "mototaxistas-dad2c.firebaseapp.com",
+    databaseURL: "https://mototaxistas-dad2c.firebaseio.com",
+    projectId: "mototaxistas-dad2c",
+    storageBucket: "mototaxistas-dad2c.appspot.com",
+    messagingSenderId: "198146350758",
+    appId: "1:198146350758:web:bb4711f2db69d2d1fe9e67",
+    measurementId: "G-1SRP5SY4X6"
+};
+
+
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+
+function generateQR() {
+    const name = document.getElementById("qrName").value.trim();
+
+    if (name === "") {
+        alert("Escribe un nombre primero.");
+        return;
+    }
+
+    database.ref('motorcycles').orderByChild('socios').equalTo(name).once('value').then(snapshot => {
+        const socioData = snapshot.val();
+
+        if (!socioData) {
+            alert("No se encontró al socio.");
+            return;
+        }
+
+        const key = Object.keys(socioData)[0]; 
+        const record = socioData[key];
+
+        const qrText = `
+            socios:${record.socios}.
+            numeroMotor:${record.numeroMotor}.
+            modelo:${record.modelo}.
+            marca:${record.marca}.
+            numeroPlaca:${record.numeroPlaca}.
+            entidadFederativa:${record.entidadFederativa}.
+            tarjetaCirculacion:${record.tarjetaCirculacion}.
+            censoIMDUT:${record.censoIMDUT}.
+        `;
+
+        let qr = new QRious({
+            value: qrText,
+            size: 250
+        });
+
+        const formattedData = `
+            SOCIO: ${record.socios}
+            No. MOTOR: ${record.numeroMotor}
+            MODELO: ${record.modelo}
+            MARCA: ${record.marca}
+            No. PLACA: ${record.numeroPlaca}
+            ENTIDAD FEDERATIVA: ${record.entidadFederativa}
+            TARJETA CIRCULACIÓN: ${record.tarjetaCirculacion}
+            CENSO IMDUT: ${record.censoIMDUT}
+        `;
+
+        const qrResultDiv = document.getElementById("qrResult");
+        qrResultDiv.innerHTML = `
+            <h3>QR del socio: ${name}</h3>
+            <img src="${qr.toDataURL()}" id="qrImage">
+            <br><br>
+            <a href="${qr.toDataURL()}" download="QR_Socio_${name}.png" class="btn-edit">Descargar QR</a>
+            <div class="qr-data">
+                <h3>Datos del Socio:</h3>
+                ${formattedData}
+            </div>
+        `;
+    });
+}
+
+function saveData() {
+    const newData = {
+        socios: document.getElementById('socios').value,
+        numeroMotor: document.getElementById('numeroMotor').value,
+        modelo: document.getElementById('modelo').value,
+        marca: document.getElementById('marca').value,
+        numeroPlaca: document.getElementById('numeroPlaca').value,
+        entidadFederativa: document.getElementById('entidadFederativa').value,
+        tarjetaCirculacion: document.getElementById('tarjetaCirculacion').value,
+        censoIMDUT: document.getElementById('censoIMDUT').value
+    };
+
+    const newDataRef = database.ref('motorcycles').push();
+    newDataRef.set(newData)
+        .then(() => {
+            alert("Datos guardados con éxito");
+            document.getElementById('motorcycleForm').reset();
+            loadData();
+        })
+        .catch((error) => {
+            console.error("Error al guardar los datos: ", error);
+        });
+}
+
+function loadData() {
+    const tbody = document.querySelector("#motorcycleTable tbody");
+    tbody.innerHTML = "";
+
+    database.ref('motorcycles').once('value', (snapshot) => {
+        const savedData = snapshot.val();
+        if (savedData) {
+            Object.keys(savedData).forEach((key) => {
+                const record = savedData[key];
+                const row = tbody.insertRow();
+
+                row.innerHTML = `
+                    <td><a href="socio.html?id=${key}">${record.socios}</a></td>
+                    <td>${record.numeroMotor}</td>
+                    <td>${record.modelo}</td>
+                    <td>${record.marca}</td>
+                    <td>${record.numeroPlaca}</td>
+                    <td>${record.entidadFederativa}</td>
+                    <td>${record.tarjetaCirculacion}</td>
+                    <td>${record.censoIMDUT}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteRecord('${key}')">Eliminar</button>
+                        <button class="btn-edit" onclick="editRecord('${key}')">Editar</button>
+                    </td>
+                `;
+            });
+        }
+    });
+}
+
+
+function deleteRecord(key) {
+    database.ref('motorcycles/' + key).remove()
+        .then(() => {
+            alert("Registro eliminado.");
+            loadData();
+        })
+        .catch((error) => {
+            console.error("Error al eliminar el registro: ", error);
+        });
+}
+
+function editRecord(key) {
+    const updatedData = {
+        socios: document.getElementById("e_socios").value,
+        numeroMotor: document.getElementById("e_motor").value,
+        modelo: document.getElementById("e_modelo").value,
+        marca: document.getElementById("e_marca").value,
+        numeroPlaca: document.getElementById("e_placa").value,
+        entidadFederativa: document.getElementById("e_entidad").value,
+        tarjetaCirculacion: document.getElementById("e_tarjeta").value,
+        censoIMDUT: document.getElementById("e_censo").value
+    };
+
+    database.ref('motorcycles/' + key).update(updatedData)
+        .then(() => {
+            alert("Registro actualizado.");
+            loadData();
+        })
+        .catch((error) => {
+            console.error("Error al actualizar el registro: ", error);
+        });
+}
+
+document.getElementById('motorcycleForm').addEventListener("submit", e => {
+    e.preventDefault();
+    saveData();
+});
+
+window.onload = loadData;
+</script>
+
+</body>
+</html>
+

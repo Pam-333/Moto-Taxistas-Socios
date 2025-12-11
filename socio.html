@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Socio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            background: linear-gradient(to right, #162ca7, #062455);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 22px;
+            text-align: center;
+            color: white;
+        }
+
+        .data-display p {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="section-title">Detalles del Socio</h2>
+
+    <div class="data-display" id="socioData">
+        <!-- Los datos del socio se cargarán aquí -->
+    </div>
+</div>
+
+<script>
+    // Obtener el parámetro "id" de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const socioId = urlParams.get('id');
+
+    // Cargar los datos desde localStorage
+    const savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+    const socio = savedData[socioId];
+
+    // Mostrar los datos del socio
+    if (socio) {
+        const dataDisplay = document.getElementById('socioData');
+        dataDisplay.innerHTML = `
+            <p><strong>Socio:</strong> ${socio.socios}</p>
+            <p><strong>No. Motor:</strong> ${socio.numeroMotor}</p>
+            <p><strong>Modelo:</strong> ${socio.modelo}</p>
+            <p><strong>Marca:</strong> ${socio.marca}</p>
+            <p><strong>No. Placa:</strong> ${socio.numeroPlaca}</p>
+            <p><strong>Entidad Federativa:</strong> ${socio.entidadFederativa}</p>
+            <p><strong>Tarjeta de Circulación:</strong> ${socio.tarjetaCirculacion}</p>
+            <p><strong>Censo IMDUT:</strong> ${socio.censoIMDUT}</p>
+        `;
+    } else {
+        document.getElementById('socioData').innerHTML = '<p>Socio no encontrado.</p>';
+    }
+</script>
+
+</body>
+</html>
