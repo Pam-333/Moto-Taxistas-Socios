@@ -134,21 +134,38 @@
             text-align: center;
         }
 
+    
         #qrResult {
             text-align: center;
         }
+        
+       
+    .watermark {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 10px;
+        color: rgba(0, 0, 255, 0.1); 
+        font-weight: bold;
+        transform: rotate(90deg);
+        pointer-events: none; 
+    }
+
+
+
     </style>
+  
+
+    
 </head>
 
 <body>
 
 <img src="img/pjg.jpg" style="display:block;margin:10px auto;width:130px;border-radius:18px;">
-
-<center><h1 style="font-size: 45px;">𝓟𝓡𝓞𝓕𝓔𝓢𝓘𝓞𝓝𝓐𝓛𝓔𝓢 𝓔𝓝𝓷 𝓐𝓒𝓒𝓘Ó𝓝 𝓨 𝓜𝓞𝓥𝓘𝓥𝓔𝓝𝓣𝓞</h1></center>
+<center><h1 style="font-size: 45px;">𝓟𝓡𝓞𝓕𝓔𝓢𝓘𝓞𝓝𝓐𝓛𝓔𝓢 𝓔𝓝 𝓐𝓒𝓒𝓘Ó𝓝 𝓨 𝓜𝓞𝓥𝓘𝓜𝓘𝓔𝓝𝓣𝓞</h1></center>
 <center><h1 style="font-size: 50px;">𝙋.𝘼.𝙈</h1></center>
 
 <div class="container">
-   
     <p style="font-size: 18px; font-family: Arial, sans-serif; color: var(--terracota); text-align: center;">
         <strong>Presidente:</strong> T.S Hugo David Melgarejo Navarrete<br>
         <strong>Vicepresidente:</strong> C. Jimmy Adrián Tzab Peraza<br><br>
@@ -169,20 +186,21 @@
 <div class="container">
     <h2 class="section-title">Ingresar Datos de Motocicleta</h2>
     <br>
-    <center>
-        <form id="motorcycleForm">
-            <input type="text" id="socios" placeholder="SOCIO" required>
-            <input type="text" id="numeroMotor" placeholder="No. MOTOR" required><br><br>
-            <input type="text" id="modelo" placeholder="MODELO" required>
-            <input type="text" id="marca" placeholder="MARCA" required><br><br>
-            <input type="text" id="numeroPlaca" placeholder="No. PLACA" required>
-            <input type="text" id="entidadFederativa" placeholder="ENTIDAD FEDERATIVA" required><br><br>
-            <input type="text" id="tarjetaCirculacion" placeholder="TARJETA DE CIRCULACIÓN" required>
-            <input type="text" id="censoIMDUT" placeholder="CENSO IMDUT" required><br><br><br>
-            <button class="btn-edit" type="submit" style="width:100%;padding:12px;">Registrar Datos</button>
-            <br>
-        </form>
-    </center>
+
+<center>
+    <form id="motorcycleForm">
+        <input type="text" id="socios" placeholder="SOCIO" required>
+        <input type="text" id="numeroMotor" placeholder="No. MOTOR" required><br><br>
+        <input type="text" id="modelo" placeholder="MODELO" required>
+        <input type="text" id="marca" placeholder="MARCA" required><br><br>
+        <input type="text" id="numeroPlaca" placeholder="No. PLACA" required>
+        <input type="text" id="entidadFederativa" placeholder="ENTIDAD FEDERATIVA" required><br><br>
+        <input type="text" id="tarjetaCirculacion" placeholder="TARJETA DE CIRCULACIÓN" required>
+        <input type="text" id="censoIMDUT" placeholder="CENSO IMDUT" required><br><br><br>
+        <button class="btn-edit" type="submit" style="width:100%;padding:12px;">Registrar Datos</button>
+        <br>
+    </form>
+</center>
 
     <h2 class="section-title">Registros de Motocicletas</h2>
 
@@ -217,27 +235,37 @@
     </center>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
 <script>
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDlb-1_Go6zZ5lm67iUStwyksyYccxWuXc",
-    authDomain: "mototaxistas-dad2c.firebaseapp.com",
-    databaseURL: "https://mototaxistas-dad2c.firebaseio.com",
-    projectId: "mototaxistas-dad2c",
-    storageBucket: "mototaxistas-dad2c.appspot.com",
-    messagingSenderId: "198146350758",
-    appId: "1:198146350758:web:bb4711f2db69d2d1fe9e67",
-    measurementId: "G-1SRP5SY4X6"
-};
+const initialData = [
+    {
+        socios: "T.S Hugo David Melgarejo Navarrete",
+        numeroMotor: "123456789",
+        modelo: "Modelo A1",
+        marca: "Marca A",
+        numeroPlaca: "XYZ123",
+        entidadFederativa: "Yucatán",
+        tarjetaCirculacion: "TC1234",
+        censoIMDUT: "CENSO001"
+    },
+    {
+        socios: "C. Jimmy Adrián Tzab Peraza",
+        numeroMotor: "987654321",
+        modelo: "Modelo B2",
+        marca: "Marca B",
+        numeroPlaca: "ABC987",
+        entidadFederativa: "Yucatán",
+        tarjetaCirculacion: "TC5678",
+        censoIMDUT: "CENSO002"
+    }
+];
 
 
-const app = firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
+if (!localStorage.getItem('motorcycleRecords')) {
+    localStorage.setItem('motorcycleRecords', JSON.stringify(initialData));
+}
 
 function generateQR() {
     const name = document.getElementById("qrName").value.trim();
@@ -247,56 +275,52 @@ function generateQR() {
         return;
     }
 
-    database.ref('motorcycles').orderByChild('socios').equalTo(name).once('value').then(snapshot => {
-        const socioData = snapshot.val();
+    const savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+    const socioData = savedData.find(record => record.socios === name);
 
-        if (!socioData) {
-            alert("No se encontró al socio.");
-            return;
-        }
+    if (!socioData) {
+        alert("No se encontró al socio.");
+        return;
+    }
 
-        const key = Object.keys(socioData)[0]; 
-        const record = socioData[key];
+    const qrText = `
+        socios:${socioData.socios}.
+        numeroMotor:${socioData.numeroMotor}.
+        modelo:${socioData.modelo}.
+        marca:${socioData.marca}.
+        numeroPlaca:${socioData.numeroPlaca}.
+        entidadFederativa:${socioData.entidadFederativa}.
+        tarjetaCirculacion:${socioData.tarjetaCirculacion}.
+        censoIMDUT:${socioData.censoIMDUT}.
+    `;
 
-        const qrText = `
-            socios:${record.socios}.
-            numeroMotor:${record.numeroMotor}.
-            modelo:${record.modelo}.
-            marca:${record.marca}.
-            numeroPlaca:${record.numeroPlaca}.
-            entidadFederativa:${record.entidadFederativa}.
-            tarjetaCirculacion:${record.tarjetaCirculacion}.
-            censoIMDUT:${record.censoIMDUT}.
-        `;
-
-        let qr = new QRious({
-            value: qrText,
-            size: 250
-        });
-
-        const formattedData = `
-            SOCIO: ${record.socios}
-            No. MOTOR: ${record.numeroMotor}
-            MODELO: ${record.modelo}
-            MARCA: ${record.marca}
-            No. PLACA: ${record.numeroPlaca}
-            ENTIDAD FEDERATIVA: ${record.entidadFederativa}
-            TARJETA CIRCULACIÓN: ${record.tarjetaCirculacion}
-            CENSO IMDUT: ${record.censoIMDUT}
-        `;
-
-        const qrResultDiv = document.getElementById("qrResult");
-        qrResultDiv.innerHTML = `
-            <h3>QR del socio: ${name}</h3>
-            <img src="${qr.toDataURL()}" id="qrImage">
-            <br><br>
-            <a href="${qr.toDataURL()}" download="QR_Socio_${name}.png" class="btn-edit">Descargar QR</a>
-            <div class="qr-data">
-                <h3>Datos del Socio:</h3>
-                ${formattedData}
-            </div>
-        `;
+    let qr = new QRious({
+        value: qrText,
+        size: 250
     });
+
+    const formattedData = `
+        SOCIO: ${socioData.socios}
+        No. MOTOR: ${socioData.numeroMotor}
+        MODELO: ${socioData.modelo}
+        MARCA: ${socioData.marca}
+        No. PLACA: ${socioData.numeroPlaca}
+        ENTIDAD FEDERATIVA: ${socioData.entidadFederativa}
+        TARJETA CIRCULACIÓN: ${socioData.tarjetaCirculacion}
+        CENSO IMDUT: ${socioData.censoIMDUT}
+    `;
+
+    const qrResultDiv = document.getElementById("qrResult");
+    qrResultDiv.innerHTML = `
+        <h3>QR del socio: ${name}</h3>
+        <img src="${qr.toDataURL()}" id="qrImage">
+        <br><br>
+        <a href="${qr.toDataURL()}" download="QR_Socio_${name}.png" class="btn-edit">Descargar QR</a>
+        <div class="qr-data">
+            <h3>Datos del Socio:</h3>
+            ${formattedData}
+        </div>
+    `;
 }
 
 function saveData() {
@@ -311,63 +335,76 @@ function saveData() {
         censoIMDUT: document.getElementById('censoIMDUT').value
     };
 
-    const newDataRef = database.ref('motorcycles').push();
-    newDataRef.set(newData)
-        .then(() => {
-            alert("Datos guardados con éxito");
-            document.getElementById('motorcycleForm').reset();
-            loadData();
-        })
-        .catch((error) => {
-            console.error("Error al guardar los datos: ", error);
-        });
+    let savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+    savedData.push(newData);
+    localStorage.setItem('motorcycleRecords', JSON.stringify(savedData));
+
+    document.getElementById('motorcycleForm').reset();
+    loadData();
 }
 
+
 function loadData() {
+    let savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
     const tbody = document.querySelector("#motorcycleTable tbody");
     tbody.innerHTML = "";
 
-    database.ref('motorcycles').once('value', (snapshot) => {
-        const savedData = snapshot.val();
-        if (savedData) {
-            Object.keys(savedData).forEach((key) => {
-                const record = savedData[key];
-                const row = tbody.insertRow();
-
-                row.innerHTML = `
-                    <td><a href="socio.html?id=${key}">${record.socios}</a></td>
-                    <td>${record.numeroMotor}</td>
-                    <td>${record.modelo}</td>
-                    <td>${record.marca}</td>
-                    <td>${record.numeroPlaca}</td>
-                    <td>${record.entidadFederativa}</td>
-                    <td>${record.tarjetaCirculacion}</td>
-                    <td>${record.censoIMDUT}</td>
-                    <td>
-                        <button class="btn-delete" onclick="deleteRecord('${key}')">Eliminar</button>
-                        <button class="btn-edit" onclick="editRecord('${key}')">Editar</button>
-                    </td>
-                `;
-            });
-        }
+    savedData.forEach((record, index) => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td><a href="socio.html?id=${index}">${record.socios}</a></td>
+            <td>${record.numeroMotor}</td>
+            <td>${record.modelo}</td>
+            <td>${record.marca}</td>
+            <td>${record.numeroPlaca}</td>
+            <td>${record.entidadFederativa}</td>
+            <td>${record.tarjetaCirculacion}</td>
+            <td>${record.censoIMDUT}</td>
+            <td>
+                <button class="btn-delete" onclick="deleteRecord(${index})">Eliminar</button>
+                <button class="btn-edit" onclick="editRecord(${index})">Editar</button>
+            </td>
+        `;
     });
 }
 
 
-function deleteRecord(key) {
-    database.ref('motorcycles/' + key).remove()
-        .then(() => {
-            alert("Registro eliminado.");
-            loadData();
-        })
-        .catch((error) => {
-            console.error("Error al eliminar el registro: ", error);
-        });
+function deleteRecord(index) {
+    let savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+    savedData.splice(index, 1);
+    localStorage.setItem('motorcycleRecords', JSON.stringify(savedData));
+    loadData();
 }
 
-function editRecord(key) {
-    const updatedData = {
-        socios: document.getElementById("e_socios").value,
+
+function editRecord(index) {
+    let savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+    const tbody = document.querySelector("#motorcycleTable tbody");
+    const row = tbody.rows[index];
+    const r = savedData[index];
+
+    row.innerHTML = `
+        <td><a href="socio.html?id=${index}">${r.socios}</a></td>
+        <td><input class="edit-input" id="e_motor" value="${r.numeroMotor}"></td>
+        <td><input class="edit-input" id="e_modelo" value="${r.modelo}"></td>
+        <td><input class="edit-input" id="e_marca" value="${r.marca}"></td>
+        <td><input class="edit-input" id="e_placa" value="${r.numeroPlaca}"></td>
+        <td><input class="edit-input" id="e_entidad" value="${r.entidadFederativa}"></td>
+        <td><input class="edit-input" id="e_tarjeta" value="${r.tarjetaCirculacion}"></td>
+        <td><input class="edit-input" id="e_censo" value="${r.censoIMDUT}"></td>
+        <td>
+            <button class="btn-save" onclick="saveEdit(${index})">Guardar</button>
+            <button class="btn-cancel" onclick="loadData()">Cancelar</button>
+        </td>
+    `;
+}
+
+
+function saveEdit(index) {
+    let savedData = JSON.parse(localStorage.getItem('motorcycleRecords')) || [];
+
+    savedData[index] = {
+        socios: savedData[index].socios,
         numeroMotor: document.getElementById("e_motor").value,
         modelo: document.getElementById("e_modelo").value,
         marca: document.getElementById("e_marca").value,
@@ -377,24 +414,23 @@ function editRecord(key) {
         censoIMDUT: document.getElementById("e_censo").value
     };
 
-    database.ref('motorcycles/' + key).update(updatedData)
-        .then(() => {
-            alert("Registro actualizado.");
-            loadData();
-        })
-        .catch((error) => {
-            console.error("Error al actualizar el registro: ", error);
-        });
+    localStorage.setItem("motorcycleRecords", JSON.stringify(savedData));
+    loadData();
 }
+
+
+window.onload = loadData;
 
 document.getElementById('motorcycleForm').addEventListener("submit", e => {
     e.preventDefault();
     saveData();
 });
 
-window.onload = loadData;
 </script>
+
+<div class="watermark">
+    © Derechos reservados - M.G.M
+</div>
 
 </body>
 </html>
-
